@@ -19,7 +19,7 @@ ActiveRecord::Schema.define(version: 2020_07_11_161251) do
     t.string "screen_id", null: false
     t.integer "soldiers_remaining", default: 100, null: false
     t.integer "sent_soldiers"
-    t.integer "castles_won", array: true
+    t.integer "castle_points", default: 0, null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
   end
