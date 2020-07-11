@@ -8,5 +8,6 @@ Rails.application.routes.draw do
 
   namespace :v1, defaults: { format: 'json' } do
     get 'users', to: 'users#index'
+    resources :games, only: [:create]
   end
 end
