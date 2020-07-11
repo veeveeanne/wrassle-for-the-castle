@@ -6,8 +6,8 @@ Rails.application.routes.draw do
   get '/games/:id', to: 'static#index'
   get '/victory', to: 'static#index'
 
-  namespace :v1, defaults: { format: 'json' } do
-    get 'users', to: 'users#index'
+  namespace :v1 do
+    resources :users, only: [:create, :show]
     resources :games, only: [:create]
   end
 end

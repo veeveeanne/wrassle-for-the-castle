@@ -22,4 +22,15 @@ ActiveRecord::Schema.define(version: 2020_07_11_170047) do
     t.datetime "updated_at", precision: 6, null: false
   end
 
+  create_table "users", force: :cascade do |t|
+    t.bigint "game_id"
+    t.string "screen_id", null: false
+    t.integer "soldiers_remaining", default: 100, null: false
+    t.integer "sent_soldiers"
+    t.integer "castle_points", default: 0, null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["game_id"], name: "index_users_on_game_id"
+  end
+
 end
