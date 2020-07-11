@@ -7,7 +7,7 @@ const GameScreen = (props) => {
     <div>
       game screen
       <br />
-      <Link to="/victory">go to Victory</Link>
+      <div onClick={() => props.setCurrentPage("victoryScreen")}>go to Victory</div>
     </div>
   )
 }
