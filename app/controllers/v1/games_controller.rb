@@ -7,4 +7,14 @@ class Api::V1::GamesController < ApplicationController
     else
       render json: {error: "Error creating a game"}
   end
+
+  def show
+    game_passcode = params[:id]
+    game = Game.where(passcode = game_passcode)
+    render json: {
+      game: game,
+      host: game.users[0],
+      guest: game.users[1]
+    }
+  end
 end

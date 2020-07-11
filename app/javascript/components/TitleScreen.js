@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
 
 const TitleScreen = (props) => {
@@ -7,7 +7,8 @@ const TitleScreen = (props) => {
     <div>
       title screen
       <br />
-      <Link to="/lobby">go to Lobby</Link>
+      <Link to="/startgamescreen">Start a Game</Link>
+      <Link to="/joingamescreen">Join a Game</Link>
     </div>
   )
 }
