@@ -32,31 +32,56 @@ const GameContainer = (props) => {
         "Content-Type": "application/json"
       }
     })
-      .then((response) => {
-        if (response.ok) {
-          return response
-        } else {
-          debugger
-        }
-      })
-      .then((response) => response.json())
-      .then((body) => {
+    .then((response) => {
+      if (response.ok) {
+        return response
+      } else {
+        let errorMessage = `${response.status} (${response.statusText})`
+        let error = new Error(errorMessage)
+        throw(error)
+      }
+    })
+    .then((response) => response.json())
+    .then((body) => {
       setCurrentUser(body)
-      })
+    })
+    .catch((error) => console.error(`Error in fetch: ${error.message}`))
   }, [])
 
 
   let showPage = null
   if (currentPage === "titleScreen") {
-    showPage = <TitleScreen setCurrentPage ={setCurrentPage} />
+    showPage = <TitleScreen setCurrentPage={setCurrentPage} />
   } else if (currentPage === "joinGameScreen") {
-    showPage = <JoinGameScreen setCurrentPage={setCurrentPage} />
+    showPage = (
+      <JoinGameScreen
+        setCurrentPage={setCurrentPage}
+        game={game}
+        setGame={setGame}
+      />
+    )
   } else if (currentPage === "startGameScreen") {
-    showPage = <StartGameScreen setCurrentPage={setCurrentPage} />
+    showPage = (
+      <StartGameScreen
+        setCurrentPage={setCurrentPage}
+        game={game}
+        setGame={setGame}
+      />
+    )
   } else if (currentPage === "gameScreen") {
-    showPage = <StartGameScreen setCurrentPage={setCurrentPage} />
+    showPage = (
+      <GameScreen
+        setCurrentPage={setCurrentPage}
+        game={game}
+        setGame={setGame}
+      />
+    )
   } else if (currentPage === "victoryScreen") {
-    showPage = <VictoryScreen setCurrentPage={setCurrentPage} />
+    showPage = (
+      <VictoryScreen
+        setCurrentPage={setCurrentPage}
+      />
+    )
   } else {
     showPage = <TitleScreen setCurrentPage={setCurrentPage} />
   }
