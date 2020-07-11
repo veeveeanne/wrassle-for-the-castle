@@ -12,11 +12,21 @@ const GameContainer = (props) => {
     <div>
       game container
       <Switch>
-        <Route path="/title" render={(props) => <TitleScreen {...props} />} />
-        <Route path="/lobby" render={(props) => <LobbyScreen {...props} />} />
-        <Route path="/victory" render={(props) => <VictoryScreen {...props} />} />
-        <Route path="/games/:id" render={(props) => <GameScreen {...props} />} />
-        <Route path="/" render={(props) => <TitleScreen {...props} />} />
+        <Route path="/title">
+          <TitleScreen />
+        </Route>
+        <Route path="/lobby">
+          <LobbyScreen />
+        </Route>
+        <Route path="/victory">
+          <VictoryScreen />
+        </Route>
+        <Route path="/games/:id">
+          <GameScreen />
+        </Route>
+        <Route path="/">
+          <TitleScreen />
+        </Route>
         <Redirect to="/" />
       </Switch>
     </div>
