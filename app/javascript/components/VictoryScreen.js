@@ -7,7 +7,7 @@ const VictoryScreen = (props) => {
     <div>
       victory screen
       <br />
-      <Link to="/title">back to Title</Link>
+      <div onClick={() => props.setCurrentPage("titleScreen")}>back to Title</div>
     </div>
   )
 }
