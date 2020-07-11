@@ -5,6 +5,7 @@ import StartGameScreen from '../components/StartGameScreen'
 import JoinGameScreen from '../components/JoinGameScreen'
 import GameScreen from '../components/GameScreen'
 import VictoryScreen from '../components/VictoryScreen'
+import RefreshButton from '../components/RefreshButton'
 
 const defaultGame = {
   passcode: null,
@@ -62,24 +63,12 @@ const GameContainer = (props) => {
 
   const onRefreshClick = (event) => {
     event.preventDefault()
-    fetch(`/v1/games/${game.passcode}`)
-    .then((response) => {
-      if (response.ok) {
-        return response
-      } else {
-        debugger
-      }
-    })
-    .then(response => response.json())
-    .then(body => {
-      setGame(body)
-      const updatedCurrentUser = body.users.find(user => user.id === currentUser.id)
-      setCurrentUser(updatedCurrentUser)
-    })
+    alert("hey I'm refreshing")
   }
 
   return (
     <>
+      <RefreshButton clickHandler={onRefreshClick} />
       {showPage}
     </>
   )
