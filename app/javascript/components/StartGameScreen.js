@@ -4,7 +4,6 @@ import { Link } from 'react-router-dom'
 const TEST_GAME_PASSCODE = '12345678'
 
 const StartGameScreen = (props) => {
-  debugger
   const createNewGameFetch = () => {
     const newGameParams = {
       host_id: props.currentUser.id
@@ -31,27 +30,8 @@ const StartGameScreen = (props) => {
     })
   }
 
-  const loadTestGameFetch = () => {
-    fetch(`/v1/games/${TEST_GAME_PASSCODE}`)
-    .then((response) => {
-      if (response.ok) {
-        return response
-      } else {
-        let errorMessage = `${response.status} (${response.statusText})`
-        let error = new Error(errorMessage)
-        throw(error)
-      }
-    })
-    .then((response) => response.json())
-    .then((body) => {
-      props.setGame(body[0])
-    })
-    .catch((error) => console.error(`Error in fetch: ${error.message}`))
-  }
-
   useEffect(() => {
     createNewGameFetch()
-    // loadTestGameFetch()
   },[])
 
   let gameShow = null
