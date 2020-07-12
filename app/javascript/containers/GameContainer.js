@@ -3,7 +3,7 @@ import React, { useState, useEffect } from 'react'
 import TitleScreen from '../components/TitleScreen'
 import StartGameScreen from '../components/StartGameScreen'
 import JoinGameScreen from '../components/JoinGameScreen'
-import GameScreen from '../components/GameScreen'
+import GameScreenContainer from '../components/GameScreenContainer'
 import VictoryScreen from '../components/VictoryScreen'
 import RefreshButton from '../components/RefreshButton'
 import StatusMessage from '../components/StatusMessage'
@@ -27,6 +27,7 @@ const defaultPasscode = {
 const GameContainer = (props) => {
   const [game, setGame] = useState(defaultGame)
   const [currentUser, setCurrentUser] = useState(defaultUser)
+  const [opponent, setOpponent] = useState(defaultUser)
   const [currentPage, setCurrentPage] = useState("titleScreen")
   const [passcodeForm, setPasscodeForm] = useState(defaultPasscode)
   const [updateMessage, setUpdateMessage] = useState("")
@@ -87,10 +88,12 @@ const GameContainer = (props) => {
     )
   } else if (currentPage === "gameScreen") {
     showPage = (
-      <GameScreen
+      <GameScreenContainer
         setCurrentPage={setCurrentPage}
         game={game}
         setGame={setGame}
+        currentUser={currentUser}
+        setCurrentUser={setCurrentUser}
         setUpdateMessage={setUpdateMessage}
       />
     )
@@ -105,7 +108,8 @@ const GameContainer = (props) => {
   }
 
   const handleRefresh = () => {
-    if (currentPage === "gameScreen") {
+    if (!game.guest_id) {
+    // if (currentPage === "gameScreen") {
       fetch(`/v1/games/${game.passcode}`)
       .then(response => {
         if (response.ok) {
@@ -122,6 +126,23 @@ const GameContainer = (props) => {
           setUpdateMessage("")
         }
       })
+    } else if (currentPage === "gameScreen") {
+      fetch(`/v1/games/${game.passcode}/${currentUser.id}/refresh`)
+      .then(response => {
+        if (response.ok) {
+          return response
+        } else {
+          let errorMessage = `${response.status} (${response.statusText})`
+          let error = new Error(errorMessage)
+          throw (error)
+        }
+      })
+      .then(response => response.json())
+      .then(body => {
+        console.log(body)
+        setGame(body.game)
+        setOpponent(body.opponent)
+      }) 
     }
   }
 
