@@ -3,36 +3,44 @@ import React from 'react'
 const JoinGameScreen = (props) => {
   const handleSubmit = (event) => {
     event.preventDefault()
-    fetch(`/v1/games/${props.passcodeForm.passcode}/${props.currentUser.id}`)
-    .then(response => {
-      if (response.ok) {
-        return response.json()
-      } else {
-        debugger
-      }
-    })
-    .then(body => {
-      props.setGame(body.game)
-    })
-    props.setCurrentPage("gameScreen")
+    if (props.passcodeForm.passcode.trim() === "") {
+      alert("Please enter in the passcode your opponent provided you to join a game")
+    } else {
+      fetch(`/v1/games/${props.passcodeForm.passcode}/${props.currentUser.id}`)
+      .then(response => {
+        if (response.ok) {
+          return response.json()
+        } else {
+          alert("No game session matching the passcode was found. Please confirm the passcode")
+        }
+      })
+      .then(body => {
+        if (body.error) {
+          alert("No game session matching the passcode was found. Please confirm the passcode")
+        } else {
+          props.setGame(body.game)
+          props.setCurrentPage("gameScreen")
+        }
+      })
+    }
   }
 
   return (
-    <div>
-      join a game screen
-      <br />
-      <br />
+    <div className="container">
+      <img className="lobby" src={require('./lobby.png')} alt="lobby"/>
+      <div className="spacer" />
       <form onSubmit={handleSubmit}>
-        <label htmlFor="passcode">Enter the passcode to join a game: </label>
+        <label htmlFor="passcode"><h4>Enter the passcode to join a game: </h4></label>
         <input
           id="passcode"
           name="passcode"
           type="text"
           value={props.passcodeForm.passcode}
           onChange={props.handleFormChange}
-        />
+          />
         <input
           type="submit"
+          className="button large"
           value="Join Game"
         />
       </form>

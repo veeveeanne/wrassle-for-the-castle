@@ -41,15 +41,16 @@ const StartGameScreen = (props) => {
 
   return (
     <div>
-      lobby screen
-      <br />
-      <br />
-      {instructions}
-      <br />
-      {gameShow}
-      <br />
-      <br />
-      <button onClick={() => props.setCurrentPage("gameScreen")}>Enter Game</button>
+      <div className="container">
+        <img className="lobby" src={require('./lobby.png')} alt="lobby"/>
+        <h4>
+          {instructions}
+        </h4>
+        <h2>
+          {gameShow}
+        </h2>
+      </div>
+      <button type="button" className="button large" onClick={() => props.setCurrentPage("gameScreen")}>Enter Game</button>
     </div>
   )
 }
