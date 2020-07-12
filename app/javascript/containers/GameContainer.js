@@ -6,6 +6,7 @@ import JoinGameScreen from '../components/JoinGameScreen'
 import GameScreen from '../components/GameScreen'
 import VictoryScreen from '../components/VictoryScreen'
 import RefreshButton from '../components/RefreshButton'
+import StatusMessage from '../components/StatusMessage'
 
 const defaultGame = {
   id: null,
@@ -19,11 +20,23 @@ const defaultUser = {
   soldiers_remaining: null,
   sent_soldiers: null
 }
+const defaultPasscode = {
+  passcode: ""
+}
 
 const GameContainer = (props) => {
   const [game, setGame] = useState(defaultGame)
   const [currentUser, setCurrentUser] = useState(defaultUser)
   const [currentPage, setCurrentPage] = useState("titleScreen")
+  const [passcodeForm, setPasscodeForm] = useState(defaultPasscode)
+  const [updateMessage, setUpdateMessage] = useState("")
+
+  const handlePasscodeFormChange = (event) => {
+    setPasscodeForm({
+      ...passcodeForm,
+      [event.currentTarget.id]: event.currentTarget.value
+    })
+  }
 
   useEffect(() => {
     fetch('/v1/users', {
@@ -50,7 +63,6 @@ const GameContainer = (props) => {
     .catch((error) => console.error(`Error in fetch: ${error.message}`))
   }, [])
 
-
   let showPage = null
   if (currentPage === "titleScreen") {
     showPage = <TitleScreen setCurrentPage={setCurrentPage} />
@@ -58,8 +70,10 @@ const GameContainer = (props) => {
     showPage = (
       <JoinGameScreen
         setCurrentPage={setCurrentPage}
-        game={game}
         setGame={setGame}
+        handleFormChange={handlePasscodeFormChange}
+        passcodeForm={passcodeForm}
+        currentUser={currentUser}
       />
     )
   } else if (currentPage === "startGameScreen") {
@@ -77,6 +91,7 @@ const GameContainer = (props) => {
         setCurrentPage={setCurrentPage}
         game={game}
         setGame={setGame}
+        setUpdateMessage={setUpdateMessage}
       />
     )
   } else if (currentPage === "victoryScreen") {
@@ -89,14 +104,37 @@ const GameContainer = (props) => {
     showPage = <TitleScreen setCurrentPage={setCurrentPage} />
   }
 
+  const handleRefresh = () => {
+    if (currentPage === "gameScreen") {
+      fetch(`/v1/games/${game.passcode}`)
+      .then(response => {
+        if (response.ok) {
+          return response.json()
+        } else {
+          debugger
+        }
+      })
+      .then(body => {
+        setGame(body.game)
+        if (!body.game.guest_id) {
+          setUpdateMessage("Your opponent isn't ready for battle yet. You may want to send more scouts out to check on them in a few seconds.")
+        } else {
+          setUpdateMessage("")
+        }
+      })
+    }
+  }
+
   const onRefreshClick = (event) => {
     event.preventDefault()
-    alert("hey I'm refreshing")
+    handleRefresh()
+    alert("Your scouts are checking on your opponent...")
   }
 
   return (
     <>
       <RefreshButton clickHandler={onRefreshClick} />
+      <StatusMessage updateMessage={updateMessage}/>
       {showPage}
     </>
   )

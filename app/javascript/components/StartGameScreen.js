@@ -1,7 +1,4 @@
 import React, { useState, useEffect } from 'react'
-import { Link } from 'react-router-dom'
-
-const TEST_GAME_PASSCODE = '12345678'
 
 const StartGameScreen = (props) => {
   const createNewGameFetch = () => {
@@ -35,15 +32,24 @@ const StartGameScreen = (props) => {
   },[])
 
   let gameShow = null
+  let instructions = null
   if (props.game.passcode) {
     gameShow = props.game.passcode
+    instructions = "Provide the passcode below to your opponent, and enter \
+    the game when you are ready."
   }
+
   return (
     <div>
       lobby screen
+      <br />
+      <br />
+      {instructions}
+      <br />
       {gameShow}
       <br />
-      <div onClick={() => props.setCurrentPage("gameScreen")}>go to Game</div>
+      <br />
+      <button onClick={() => props.setCurrentPage("gameScreen")}>Enter Game</button>
     </div>
   )
 }
