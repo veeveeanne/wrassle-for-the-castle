@@ -26,7 +26,7 @@ const StartGameScreen = (props) => {
     })
     .then((response) => response.json())
     .then((body) => {
-      props.setGame(body)
+      props.setGame(body.game)
     })
   }
 
