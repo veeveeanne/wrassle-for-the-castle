@@ -1,5 +1,7 @@
 class User < ApplicationRecord
-  belongs_to :game, optional: true
+  # belongs_to :game, optional: true
+  has_many :hosted_games, class_name: "Game", foreign_key: "host_id"
+  has_many :joined_games, class_name: "Game", foreign_key: "guest_id"
 
   validates :screen_id, presence: true
   validates :soldiers_remaining, presence: true, numericality: { only_integer: true }

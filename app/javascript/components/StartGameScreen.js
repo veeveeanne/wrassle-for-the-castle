@@ -4,11 +4,15 @@ import { Link } from 'react-router-dom'
 const TEST_GAME_PASSCODE = '12345678'
 
 const StartGameScreen = (props) => {
+  debugger
   const createNewGameFetch = () => {
+    const newGameParams = {
+      host_id: props.currentUser.id
+    }
     fetch('/v1/games', {
       credentials: "same-origin",
       method: "POST",
-      body: JSON.stringify({host: props.user}),
+      body: JSON.stringify(newGameParams),
       headers: {
         Accept: "application/json",
         "Content-Type": "application/json"
@@ -46,12 +50,12 @@ const StartGameScreen = (props) => {
   }
 
   useEffect(() => {
-    // createNewGameFetch()
-    loadTestGameFetch()
+    createNewGameFetch()
+    // loadTestGameFetch()
   },[])
 
   let gameShow = null
-  if (props.game !== null) {
+  if (props.game.passcode) {
     gameShow = props.game.passcode
   }
   return (

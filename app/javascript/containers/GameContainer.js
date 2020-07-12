@@ -8,10 +8,12 @@ import VictoryScreen from '../components/VictoryScreen'
 import RefreshButton from '../components/RefreshButton'
 
 const defaultGame = {
+  id: null,
   passcode: null,
   current_castle: null
 }
 const defaultUser = {
+  id: null,
   castle_points: null,
   screen_id: null,
   soldiers_remaining: null,
@@ -66,6 +68,7 @@ const GameContainer = (props) => {
         setCurrentPage={setCurrentPage}
         game={game}
         setGame={setGame}
+        currentUser={currentUser}
       />
     )
   } else if (currentPage === "gameScreen") {

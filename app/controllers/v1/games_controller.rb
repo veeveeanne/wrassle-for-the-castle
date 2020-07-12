@@ -1,7 +1,8 @@
 class V1::GamesController < ApplicationController
   def create
     passcode = (0...8).map { (65 + rand(26)).chr }.join
-    game = Game.new(passcode: passcode)
+    binding.pry
+    game = Game.new(passcode: passcode, host: current_user)
     if game.save
       render json: {game: game}
     else
