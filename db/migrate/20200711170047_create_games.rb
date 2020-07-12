@@ -3,6 +3,8 @@ class CreateGames < ActiveRecord::Migration[6.0]
     create_table :games do |t|
       t.string :passcode, null: false
       t.integer :current_castle, default: nil
+      t.references :host, index: true
+      t.references :guest, index: true
 
       t.timestamps
     end

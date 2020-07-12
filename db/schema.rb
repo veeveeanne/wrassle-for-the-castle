@@ -18,19 +18,23 @@ ActiveRecord::Schema.define(version: 2020_07_11_170047) do
   create_table "games", force: :cascade do |t|
     t.string "passcode", null: false
     t.integer "current_castle"
+    t.bigint "host_id"
+    t.bigint "guest_id"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.index ["guest_id"], name: "index_games_on_guest_id"
+    t.index ["host_id"], name: "index_games_on_host_id"
   end
 
   create_table "users", force: :cascade do |t|
-    t.bigint "game_id"
     t.string "screen_id", null: false
     t.integer "soldiers_remaining", default: 100, null: false
     t.integer "sent_soldiers"
     t.integer "castle_points", default: 0, null: false
+    t.boolean "ready_for_battle", default: false
+    t.boolean "ready_for_next_turn", default: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.index ["game_id"], name: "index_users_on_game_id"
   end
 
 end

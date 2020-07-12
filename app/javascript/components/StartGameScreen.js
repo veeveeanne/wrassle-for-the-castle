@@ -5,10 +5,13 @@ const TEST_GAME_PASSCODE = '12345678'
 
 const StartGameScreen = (props) => {
   const createNewGameFetch = () => {
+    const newGameParams = {
+      host_id: props.currentUser.id
+    }
     fetch('/v1/games', {
       credentials: "same-origin",
       method: "POST",
-      body: JSON.stringify({host: props.user}),
+      body: JSON.stringify(newGameParams),
       headers: {
         Accept: "application/json",
         "Content-Type": "application/json"
@@ -23,35 +26,16 @@ const StartGameScreen = (props) => {
     })
     .then((response) => response.json())
     .then((body) => {
-      props.setGame(body)
+      props.setGame(body.game)
     })
-  }
-
-  const loadTestGameFetch = () => {
-    fetch(`/v1/games/${TEST_GAME_PASSCODE}`)
-    .then((response) => {
-      if (response.ok) {
-        return response
-      } else {
-        let errorMessage = `${response.status} (${response.statusText})`
-        let error = new Error(errorMessage)
-        throw(error)
-      }
-    })
-    .then((response) => response.json())
-    .then((body) => {
-      props.setGame(body[0])
-    })
-    .catch((error) => console.error(`Error in fetch: ${error.message}`))
   }
 
   useEffect(() => {
-    // createNewGameFetch()
-    loadTestGameFetch()
+    createNewGameFetch()
   },[])
 
   let gameShow = null
-  if (props.game !== null) {
+  if (props.game.passcode) {
     gameShow = props.game.passcode
   }
   return (
