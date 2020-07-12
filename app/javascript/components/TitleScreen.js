@@ -7,8 +7,8 @@ const TitleScreen = (props) => {
       title screen
       <br />
       <br />
-      <button onClick={() => props.setCurrentPage("startGameScreen")}>Start a game</button>
-      <button onClick={() => props.setCurrentPage("joinGameScreen")}>Join a game</button>
+      <button type="button" className="button primary" onClick={() => props.setCurrentPage("startGameScreen")}>Start a game</button>
+      <button type="button" className="button primary" onClick={() => props.setCurrentPage("joinGameScreen")}>Join a game</button>
     </div>
   )
 }

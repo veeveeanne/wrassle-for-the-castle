@@ -49,7 +49,7 @@ const StartGameScreen = (props) => {
       {gameShow}
       <br />
       <br />
-      <button onClick={() => props.setCurrentPage("gameScreen")}>Enter Game</button>
+      <button type="button" className="button primary" onClick={() => props.setCurrentPage("gameScreen")}>Enter Game</button>
     </div>
   )
 }

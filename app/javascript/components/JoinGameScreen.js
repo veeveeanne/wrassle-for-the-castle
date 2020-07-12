@@ -33,6 +33,7 @@ const JoinGameScreen = (props) => {
         />
         <input
           type="submit"
+          className="button"
           value="Join Game"
         />
       </form>

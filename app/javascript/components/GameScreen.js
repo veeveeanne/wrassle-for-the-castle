@@ -17,7 +17,7 @@ const GameScreen = (props) => {
       {display}
       <br />
       <br />
-      <button onClick={() => props.setCurrentPage("victoryScreen")}>go to Victory</button>
+      <button type="button" className="button primary" onClick={() => props.setCurrentPage("victoryScreen")}>go to Victory</button>
     </div>
   )
 }
