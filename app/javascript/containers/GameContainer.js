@@ -29,8 +29,10 @@ const GameContainer = (props) => {
   const [currentUser, setCurrentUser] = useState(defaultUser)
   const [opponent, setOpponent] = useState(defaultUser)
   const [currentPage, setCurrentPage] = useState("titleScreen")
+  const [gameScreenPage, setGameScreenPage] = useState('troopDeployForm')
   const [passcodeForm, setPasscodeForm] = useState(defaultPasscode)
   const [updateMessage, setUpdateMessage] = useState("")
+  const [nextStep, setNextStep] = useState('')
 
   const handlePasscodeFormChange = (event) => {
     setPasscodeForm({
@@ -95,6 +97,10 @@ const GameContainer = (props) => {
         currentUser={currentUser}
         setCurrentUser={setCurrentUser}
         setUpdateMessage={setUpdateMessage}
+        gameScreenPage={gameScreenPage}
+        setGameScreenPage={setGameScreenPage}
+        opponent={opponent}
+        nextStep={nextStep}
       />
     )
   } else if (currentPage === "victoryScreen") {
@@ -109,7 +115,6 @@ const GameContainer = (props) => {
 
   const handleRefresh = () => {
     if (!game.guest_id) {
-    // if (currentPage === "gameScreen") {
       fetch(`/v1/games/${game.passcode}`)
       .then(response => {
         if (response.ok) {
@@ -139,17 +144,30 @@ const GameContainer = (props) => {
       })
       .then(response => response.json())
       .then(body => {
-        console.log(body)
+        console.log(body.next_step)
         setGame(body.game)
         setOpponent(body.opponent)
-      }) 
+        setNextStep(body.next_step)
+        if (nextStep === "result") {
+          setGameScreenPage("resultsScreen")
+          setUpdateMessage("")
+        } else if (nextStep === "form") {
+          setGameScreenPage("troopDeployForm")
+          setUpdateMessage("")
+        } else if (nextStep === "victory") {
+          setCurrentPage("victoryScreen")
+          setUpdateMessage("")
+        } else {
+          setUpdateMessage("your opponent is still choosing a number")
+        }
+      })
     }
   }
 
   const onRefreshClick = (event) => {
     event.preventDefault()
     handleRefresh()
-    alert("Your scouts are checking on your opponent...")
+    console.log("Your scouts are checking on your opponent...")
   }
 
   return (

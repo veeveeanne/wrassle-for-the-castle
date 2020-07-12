@@ -33,16 +33,41 @@ class V1::GamesController < ApplicationController
   end
 
   def refresh
+    max_castles = 3
     game = Game.where("passcode = ?", params[:id]).order(:created_at).last
     if game
       current_user = User.find(params[:user_id])
      
       opponent_id = get_opponent_id(game, current_user.id)
       opponent = User.find(opponent_id)
+
+      if current_user.ready_for_battle === true && opponent.ready_for_battle === true
+        next_step = "result"
+        current_user.ready_for_battle = false
+        opponent.ready_for_battle = false
+      elsif current_user.ready_for_next_turn === true && opponent.ready_for_next_turn === true
+      #    winner  = getWinner(currentUser, opponent) <-- MUST DEFINE THIS
+      #    if winner is host:
+      #      set host castle points += {castle #}
+      #    else
+      #      set guest castle points += {castle #}
+        next_step = "form"
+        current_user.ready_for_next_turn = false
+        opponent.ready_for_next_turn = false
+
+        if game.current_castle === max_castles
+          next_step = "victory"
+        else
+          game.current_castle += 1
+        end
+      else
+        next_step = "out-of-sync"
+      end
       if game.save
         render json: {
           game: game,
-          opponent: opponent
+          opponent: opponent,
+          next_step: next_step
         }
       else
         render json: {error: "Error joining game"}
@@ -50,6 +75,19 @@ class V1::GamesController < ApplicationController
     else
       render json: {error: "Passcode is not valid"}
     end
+  end
+
+  def advance
+    game = Game.where("passcode = ?", params[:id]).order(:created_at).last
+    game.current_castle += 1
+    if game.save
+        render json: {
+          game: game,
+          opponent: opponent,
+          advanceScreen: false,
+          victory: false
+        }
+      end 
   end
 
   private
