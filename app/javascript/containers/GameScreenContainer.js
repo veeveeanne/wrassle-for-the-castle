@@ -1,7 +1,7 @@
 import React, {useState} from 'react'
 
-import TroopDeployForm from './TroopDeployForm'
-import ResultsScreen from './ResultsScreen'
+import TroopDeployForm from '../components/TroopDeployForm'
+import ResultsScreen from '../components/ResultsScreen'
 
 const GameScreenContainer = (props) => {
   const { currentUser, setCurrentUser, game, setGame, opponent } = props
