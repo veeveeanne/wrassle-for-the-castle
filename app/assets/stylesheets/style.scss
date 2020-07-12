@@ -1,10 +1,83 @@
-$color-somecolorname: #FF0000
+$color-darkblue: #324376;
+$color-lightblue: #586BA4;
+$color-sand: #F9E9B4;
+$color-lightred: #D55D67;
+$color-darkred: #B22E39;
+
 
 .application {
-  margin: 50px;
+  font-family: 'Montserrat', sans-serif;
+  text-align: center;
+  margin: 15px;
+  padding: 15px;
+  background-color: $color-sand;
+  height: 95vh;
+  min-height: 550px;
+}
+
+footer {
+  margin-top: 30px;
+}
+
+.title {
+  font-family: 'Bangers', cursive;
+  font-size: 9vw;
+  color: $color-darkblue
+}
+
+h2, h3, h4, h5, h6 {
+  font-family: 'Montserrat', sans-serif;
+}
+
+h6 {
+  font-size: 15px;
+}
+
+.text-container {
+  margin-top: 35px;
+  padding: 25px 15px 25px 15px;
+  background-color: $color-sand;
 }
 
 .button {
   border-radius: 6px;
   margin: 5px;
+  background-color: $color-darkred;
+}
+
+.button:hover {
+  background-color: $color-lightred
+}
+
+.button:focus {
+  background-color: $color-darkred;
+  outline: $color-lightred
+}
+
+.container {
+  max-width: 70vw;
+  margin: auto;
+}
+
+.instructions {
+  border: 1px solid black;
+  margin-bottom: 15px;
+  padding: 10px;
+}
+
+img.castle {
+  max-width: 35vw;
+}
+
+img.lobby {
+  max-width: 30vw;
+}
+
+.spacer {
+  height: 15px;
+}
+
+.text-bold {
+  font-weight: 600;
+  color: $color-darkblue
 }

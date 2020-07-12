@@ -6,7 +6,7 @@ const VictoryScreen = (props) => {
     <div>
       victory screen
       <br />
-      <button type="button" className="button primary" onClick={() => props.setCurrentPage("titleScreen")}>back to Title</button>
+      <button type="button" className="button" onClick={() => props.setCurrentPage("titleScreen")}>back to Title</button>
     </div>
   )
 }
