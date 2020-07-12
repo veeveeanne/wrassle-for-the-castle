@@ -12,7 +12,23 @@ class V1::GamesController < ApplicationController
   end
 
   def show
-    game = Game.where("passcode = '#{params[:id]}'")
-    render json: game
+    game = Game.where("passcode = ?", params[:id]).order(:created_at).last
+
+    render json: {game: game}
+  end
+
+  def join
+    game = Game.where("passcode = ?", params[:id]).order(:created_at).last
+    if game
+      current_user = User.find(params[:user_id])
+      game.guest = current_user
+      if game.save
+        render json: {game: game}
+      else
+        render json: {error: "Error joining game"}
+      end
+    else
+      render json: {error: "Passcode is not valid"}
+    end
   end
 end

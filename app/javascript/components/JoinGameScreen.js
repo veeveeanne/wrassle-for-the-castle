@@ -1,26 +1,41 @@
 import React from 'react'
-import { Link } from 'react-router-dom'
 
 const JoinGameScreen = (props) => {
+  const handleSubmit = (event) => {
+    event.preventDefault()
+    fetch(`/v1/games/${props.passcodeForm.passcode}/${props.currentUser.id}`)
+    .then(response => {
+      if (response.ok) {
+        return response.json()
+      } else {
+        debugger
+      }
+    })
+    .then(body => {
+      props.setGame(body.game)
+    })
+    props.setCurrentPage("gameScreen")
+  }
 
   return (
     <div>
-      <form>
-        <label htmlFor="passcode">Enter the access code to join a game: </label>
+      join a game screen
+      <br />
+      <br />
+      <form onSubmit={handleSubmit}>
+        <label htmlFor="passcode">Enter the passcode to join a game: </label>
         <input
           id="passcode"
           name="passcode"
           type="text"
+          value={props.passcodeForm.passcode}
+          onChange={props.handleFormChange}
         />
         <input
           type="submit"
           value="Join Game"
         />
       </form>
-      join a game screen
-      <br />
-      <div onClick={() => props.setCurrentPage("gameScreen")}>go to Game</div>
-
     </div>
   )
 }

@@ -2,9 +2,9 @@ import React from 'react'
 
 const RefreshButton = (props) => {
   return (
-    <div onClick={props.clickHandler}>
+    <button onClick={props.clickHandler}>
       <h2>Refresh</h2>
-    </div>
+    </button>
   )
 }
 
