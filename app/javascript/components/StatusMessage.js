@@ -2,7 +2,7 @@ import React from 'react'
 
 const StatusMessage = (props) => {
   return (
-    <div>
+    <div className="status">
       <h5>{props.updateMessage}</h5>
     </div>
   )

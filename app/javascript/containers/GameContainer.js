@@ -66,53 +66,6 @@ const GameContainer = (props) => {
     .catch((error) => console.error(`Error in fetch: ${error.message}`))
   }, [])
 
-  let showPage = null
-  if (currentPage === "titleScreen") {
-    showPage = <TitleScreen setCurrentPage={setCurrentPage} />
-  } else if (currentPage === "joinGameScreen") {
-    showPage = (
-      <JoinGameScreen
-        setCurrentPage={setCurrentPage}
-        setGame={setGame}
-        handleFormChange={handlePasscodeFormChange}
-        passcodeForm={passcodeForm}
-        currentUser={currentUser}
-      />
-    )
-  } else if (currentPage === "startGameScreen") {
-    showPage = (
-      <StartGameScreen
-        setCurrentPage={setCurrentPage}
-        game={game}
-        setGame={setGame}
-        currentUser={currentUser}
-      />
-    )
-  } else if (currentPage === "gameScreen") {
-    showPage = (
-      <GameScreenContainer
-        setCurrentPage={setCurrentPage}
-        game={game}
-        setGame={setGame}
-        currentUser={currentUser}
-        setCurrentUser={setCurrentUser}
-        setUpdateMessage={setUpdateMessage}
-        gameScreenPage={gameScreenPage}
-        setGameScreenPage={setGameScreenPage}
-        opponent={opponent}
-        nextStep={nextStep}
-      />
-    )
-  } else if (currentPage === "victoryScreen") {
-    showPage = (
-      <VictoryScreen
-        setCurrentPage={setCurrentPage}
-      />
-    )
-  } else {
-    showPage = <TitleScreen setCurrentPage={setCurrentPage} />
-  }
-
   const handleRefresh = () => {
     if (!game.guest_id) {
       fetch(`/v1/games/${game.passcode}`)
@@ -170,10 +123,59 @@ const GameContainer = (props) => {
     console.log("Your scouts are checking on your opponent...")
   }
 
+  let showPage = null
+  if (currentPage === "titleScreen") {
+    showPage = <TitleScreen setCurrentPage={setCurrentPage} />
+  } else if (currentPage === "joinGameScreen") {
+    showPage = (
+      <JoinGameScreen
+        setCurrentPage={setCurrentPage}
+        setGame={setGame}
+        handleFormChange={handlePasscodeFormChange}
+        passcodeForm={passcodeForm}
+        currentUser={currentUser}
+      />
+    )
+  } else if (currentPage === "startGameScreen") {
+    showPage = (
+      <StartGameScreen
+        setCurrentPage={setCurrentPage}
+        game={game}
+        setGame={setGame}
+        currentUser={currentUser}
+      />
+    )
+  } else if (currentPage === "gameScreen") {
+    showPage = (
+      <div>
+        <RefreshButton clickHandler={onRefreshClick} />
+        <StatusMessage updateMessage={updateMessage}/>
+        <GameScreenContainer
+          setCurrentPage={setCurrentPage}
+          game={game}
+          setGame={setGame}
+          currentUser={currentUser}
+          setCurrentUser={setCurrentUser}
+          setUpdateMessage={setUpdateMessage}
+          gameScreenPage={gameScreenPage}
+          setGameScreenPage={setGameScreenPage}
+          opponent={opponent}
+          nextStep={nextStep}
+        />
+      </div>
+    )
+  } else if (currentPage === "victoryScreen") {
+    showPage = (
+      <VictoryScreen
+        setCurrentPage={setCurrentPage}
+      />
+    )
+  } else {
+    showPage = <TitleScreen setCurrentPage={setCurrentPage} />
+  }
+
   return (
     <>
-      <RefreshButton clickHandler={onRefreshClick} />
-      <StatusMessage updateMessage={updateMessage}/>
       {showPage}
     </>
   )

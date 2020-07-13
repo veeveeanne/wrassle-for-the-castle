@@ -1,15 +1,10 @@
-import React, {useState} from 'react'
+import React, { useState } from 'react'
 
 import TroopDeployForm from '../components/TroopDeployForm'
 import ResultsScreen from '../components/ResultsScreen'
 
 const GameScreenContainer = (props) => {
   const { currentUser, setCurrentUser, game, setGame, opponent, setUpdateMessage, gameScreenPage, setGameScreenPage, nextStep } = props
-  let display = "Waiting for your opponent. Send a scout out to spy on them!"
-
-  if (game.guest_id) {
-    display = ""
-  }
 
   const submitSoldiers = (event) => {
     event.preventDefault()
@@ -19,8 +14,8 @@ const GameScreenContainer = (props) => {
     }
     setUpdateMessage("")
     const newSoldiersRemaining = currentUser.soldiers_remaining - currentUser.sent_soldiers
-    const readyForBattleUser = { 
-      ...currentUser, 
+    const readyForBattleUser = {
+      ...currentUser,
       ready_for_battle: true,
       soldiers_remaining: newSoldiersRemaining
     }
@@ -32,7 +27,7 @@ const GameScreenContainer = (props) => {
       headers: {
         Accept: "application/json",
         "Content-Type": "application/json"
-      }      
+      }
     })
     .then(response => {
       if (response.ok) {
@@ -49,7 +44,7 @@ const GameScreenContainer = (props) => {
       console.log("submit soldier, opponent:" + opponent.id)
       setCurrentUser(user)
       setGameScreenPage("resultsScreen")
-    })    
+    })
   }
 
   const handleChange = (event) => {
@@ -57,13 +52,13 @@ const GameScreenContainer = (props) => {
     const newCurrentUser = {
       ...currentUser,
       sent_soldiers: event.currentTarget.value,
-    }   
+    }
     setCurrentUser(newCurrentUser)
   }
 
   let showPage = null
   if (gameScreenPage === 'troopDeployForm') {
-    showPage = (<TroopDeployForm 
+    showPage = (<TroopDeployForm
     currentUser={currentUser}
     game={game}
     submitSoldiers={submitSoldiers}
@@ -82,15 +77,10 @@ const GameScreenContainer = (props) => {
 
   return (
     <div>
-      game screen
-      <br />
-      <br />
-      Game Room: {props.game.passcode}
-      <br />
+      <div className="session-id">
+        Game Room: {props.game.passcode}
+      </div>
       {showPage}
-      <br />
-      <br />
-      <button onClick={() => props.setCurrentPage("victoryScreen")}>go to Victory</button>
     </div>
   )
 }
