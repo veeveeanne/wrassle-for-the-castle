@@ -45,8 +45,6 @@ const GameScreenContainer = (props) => {
     })
     .then(response => response.json())
     .then(user => {
-      console.log("submit soldier, user:" + user)
-      console.log("submit soldier, opponent:" + opponent.id)
       setCurrentUser(user)
       setGameScreenPage("resultsScreen")
     })    

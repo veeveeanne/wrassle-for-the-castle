@@ -7,8 +7,7 @@ const ResultsScreen = (props) => {
     if (props.game.guest_id) {
         display = ""
     }
-    console.log("results screen, nextStep: " + props.nextStep)
-    console.log("results screen, opponent: " + props.opponent.id)
+
     if (props.nextStep === "result") {
         presentation = (
           <div>
