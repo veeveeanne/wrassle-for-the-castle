@@ -66,63 +66,6 @@ const GameContainer = (props) => {
     .catch((error) => console.error(`Error in fetch: ${error.message}`))
   }, [])
 
-  const handleRefresh = () => {
-    if (!game.guest_id) {
-      fetch(`/v1/games/${game.passcode}`)
-      .then(response => {
-        if (response.ok) {
-          return response.json()
-        } else {
-          debugger
-        }
-      })
-      .then(body => {
-        setGame(body.game)
-        if (!body.game.guest_id) {
-          setUpdateMessage("Your opponent isn't ready for battle yet. You may want to send more scouts out to check on them in a few seconds.")
-        } else {
-          setUpdateMessage("")
-        }
-      })
-    } else if (currentPage === "gameScreen") {
-      fetch(`/v1/games/${game.passcode}/${currentUser.id}/refresh`)
-      .then(response => {
-        if (response.ok) {
-          return response
-        } else {
-          let errorMessage = `${response.status} (${response.statusText})`
-          let error = new Error(errorMessage)
-          throw (error)
-        }
-      })
-      .then(response => response.json())
-      .then(body => {
-        console.log(body.next_step)
-        setGame(body.game)
-        setOpponent(body.opponent)
-        setNextStep(body.next_step)
-        if (nextStep === "result") {
-          setGameScreenPage("resultsScreen")
-          setUpdateMessage("")
-        } else if (nextStep === "form") {
-          setGameScreenPage("troopDeployForm")
-          setUpdateMessage("")
-        } else if (nextStep === "victory") {
-          setCurrentPage("victoryScreen")
-          setUpdateMessage("")
-        } else {
-          setUpdateMessage("your opponent is still choosing a number")
-        }
-      })
-    }
-  }
-
-  const onRefreshClick = (event) => {
-    event.preventDefault()
-    handleRefresh()
-    console.log("Your scouts are checking on your opponent...")
-  }
-
   let showPage = null
   if (currentPage === "titleScreen") {
     showPage = <TitleScreen setCurrentPage={setCurrentPage} />
@@ -159,7 +102,10 @@ const GameContainer = (props) => {
           gameScreenPage={gameScreenPage}
           setGameScreenPage={setGameScreenPage}
           opponent={opponent}
+          setOpponent={setOpponent}
           nextStep={nextStep}
+          setNextStep={setNextStep}
+          setCurrentPage={setCurrentPage}
           refreshClickHandler={onRefreshClick}
         />
       </div>
