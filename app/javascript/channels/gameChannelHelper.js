@@ -6,7 +6,7 @@ const subscribeToGameChannel = (setGame) => {
     { channel: "GameChannel" },
     {
       received: data => {
-        console.log("received data:" + data.game.id)
+        console.log("received data:" + data.game.passcode)
         setGame(data.game)
       },
       speak: function(data) {

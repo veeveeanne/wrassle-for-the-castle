@@ -1,12 +1,17 @@
-import React, {useState} from 'react'
+import React, { useState, useEffect } from 'react'
 
 import TroopDeployForm from '../components/TroopDeployForm'
 import ResultsScreen from '../components/ResultsScreen'
+import { speakToGameChannel } from '../channels/gameChannelHelper'
 
 const GameScreenContainer = (props) => {
-  const { currentUser, setCurrentUser, game, setGame, opponent, setUpdateMessage, gameScreenPage, setGameScreenPage, nextStep } = props
-  let display = "Waiting for your opponent. Send a scout out to spy on them!"
+  const { currentUser, setCurrentUser, game, setGame, opponent, setUpdateMessage, gameScreenPage, setGameScreenPage, nextStep, handleRefresh } = props
 
+  useEffect(() => {
+    handleRefresh()
+  }, [game.updated_at])
+
+  let display = "Waiting for your opponent. Send a scout out to spy on them!"
   if (game.guest_id) {
     display = ""
   }
@@ -19,8 +24,8 @@ const GameScreenContainer = (props) => {
     }
     setUpdateMessage("")
     const newSoldiersRemaining = currentUser.soldiers_remaining - currentUser.sent_soldiers
-    const readyForBattleUser = { 
-      ...currentUser, 
+    const readyForBattleUser = {
+      ...currentUser,
       ready_for_battle: true,
       soldiers_remaining: newSoldiersRemaining
     }
@@ -32,7 +37,7 @@ const GameScreenContainer = (props) => {
       headers: {
         Accept: "application/json",
         "Content-Type": "application/json"
-      }      
+      }
     })
     .then(response => {
       if (response.ok) {
@@ -47,7 +52,11 @@ const GameScreenContainer = (props) => {
     .then(user => {
       setCurrentUser(user)
       setGameScreenPage("resultsScreen")
-    })    
+      if (game != null) {
+        console.log("speaking")
+        speakToGameChannel({ game: game })
+      }
+    })
   }
 
   const handleChange = (event) => {
@@ -55,13 +64,13 @@ const GameScreenContainer = (props) => {
     const newCurrentUser = {
       ...currentUser,
       sent_soldiers: event.currentTarget.value,
-    }   
+    }
     setCurrentUser(newCurrentUser)
   }
 
   let showPage = null
   if (gameScreenPage === 'troopDeployForm') {
-    showPage = (<TroopDeployForm 
+    showPage = (<TroopDeployForm
     currentUser={currentUser}
     game={game}
     submitSoldiers={submitSoldiers}

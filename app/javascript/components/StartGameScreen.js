@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from 'react'
 
+import { subscribeToGameChannel } from '../channels/gameChannelHelper'
+
 const StartGameScreen = (props) => {
   const createNewGameFetch = () => {
     const newGameParams = {
@@ -24,6 +26,7 @@ const StartGameScreen = (props) => {
     .then((response) => response.json())
     .then((body) => {
       props.setGame(body.game)
+      subscribeToGameChannel(props.setGame)
     })
   }
 
