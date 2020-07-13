@@ -137,6 +137,7 @@ const GameScreenContainer = (props) => {
         setGameScreenPage("troopDeployForm")
         setUpdateMessage("")
         setCurrentUser(body.current_user)
+        setGame(body.game)
       } else if (body.next_step === "victory") {
         setCurrentPage("victoryScreen")
         setUpdateMessage("")
