@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import RubberBand from 'react-reveal/RubberBand';
+import Roll from 'react-reveal/Roll';
 
 const StartGameScreen = (props) => {
   const createNewGameFetch = () => {
@@ -43,9 +43,9 @@ const StartGameScreen = (props) => {
   return (
     <div>
       <div className="container">
-        <RubberBand>
+        <Roll left>
           <img className="lobby" src={require('./lobby.png')} alt="lobby"/>
-        </RubberBand>
+        </Roll>
         <h4>
           {instructions}
         </h4>
