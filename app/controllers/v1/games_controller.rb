@@ -45,7 +45,7 @@ class V1::GamesController < ApplicationController
       current_castle_floor = game.current_castle.floor().to_i()
       if current_user.ready_for_battle === current_castle_floor && opponent.ready_for_battle === current_castle_floor
         next_step = "result"
-        game.current_castle += 0.5
+        game.current_castle = game.current_casltle + 0.5
         game.save
       elsif current_user.ready_for_battle <= opponent.ready_for_battle && current_user.ready_for_battle != current_castle_floor
         next_step = "form"
