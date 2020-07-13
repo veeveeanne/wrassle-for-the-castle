@@ -111,7 +111,12 @@ const GameContainer = (props) => {
   } else if (currentPage === "victoryScreen") {
     showPage = (
       <VictoryScreen
-        setCurrentPage={setCurrentPage}
+        game={game}
+        currentUser={currentUser}
+        setCurrentUser={setCurrentUser}
+        setUpdateMessage={setUpdateMessage}
+        opponent={opponent}
+        setOpponent={setOpponent}
       />
     )
   } else {

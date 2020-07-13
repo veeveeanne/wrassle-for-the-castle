@@ -28,9 +28,10 @@ const TroopDeployForm = (props) => {
         <Pulse>
           <img className="troops" src={require('./troops.png')} />
         </Pulse>
-        <h1> Castle Number: {props.game.current_castle}</h1>
+        <h1> Castle Number: {Math.ceil(props.game.current_castle)}</h1>
+        <p>You have {props.currentUser.soldiers_remaining} troops remaining</p>
         <form onSubmit={props.submitSoldiers}>
-            <label>How many troops would you like to send to castle #{props.game.current_castle}?
+          <label>How many troops would you like to send to castle #{Math.ceil(props.game.current_castle)}?
             <input type="number" pattern="[0-9]*" onChange={props.handleChange} />
             </label>
             <input className="button" type="submit" />

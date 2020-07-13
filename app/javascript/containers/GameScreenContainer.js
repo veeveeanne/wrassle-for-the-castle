@@ -123,6 +123,29 @@ const GameScreenContainer = (props) => {
     setCurrentUser(newCurrentUser)
   }
 
+  const handleNextBattle = (points) => {
+    fetch(`v1/games/${currentUser.id}/${game.id}/${points}/points`)
+    .then(response => {
+      if (response.ok) {
+        return response.json()
+      } else {
+        debugger
+      }
+    })
+    .then(body => {
+      if (body.next_step === "form") {
+        setGameScreenPage("troopDeployForm")
+        setUpdateMessage("")
+        setCurrentUser(body.current_user)
+      } else if (body.next_step === "victory") {
+        setCurrentPage("victoryScreen")
+        setUpdateMessage("")
+        setCurrentUser(body.current_user)
+        return
+      }
+    })
+  }
+
   let showPage = null
   if (gameScreenPage === 'troopDeployForm') {
     showPage = (<TroopDeployForm
@@ -143,7 +166,7 @@ const GameScreenContainer = (props) => {
         gameScreenPage={gameScreenPage}
         setGameScreenPage={setGameScreenPage}
         nextStep={nextStep}
-        handleRefresh={handleRefresh}
+        handleNextBattle={handleNextBattle}
         refreshClickHandler={onRefreshClick}
       />
     )

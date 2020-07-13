@@ -5,7 +5,7 @@ import Slide from 'react-reveal/Slide';
 import RefreshButton from './RefreshButton'
 
 const ResultsScreen = (props) => {
-  const { currentUser, opponent, setGameScreenPage, nextStep, nextCastle, handleRefresh, refreshClickHandler } = props
+  const { currentUser, opponent, game, setGameScreenPage, nextStep, nextCastle, handleNextBattle, refreshClickHandler } = props
   let presentation
   let refreshClass
 
@@ -14,10 +14,17 @@ const ResultsScreen = (props) => {
 
   if (nextStep === "result") {
     let winnerMessage = "It's a tie! Neither of you won the castle.."
+    let points = 0
     if (currentUser.sent_soldiers > opponent.sent_soldiers) {
       winnerMessage = "You won the castle"
+      points = Math.ceil(game.current_castle) - 1
     } else if (opponent.sent_soldiers > currentUser.sent_soldiers) {
       winnerMessage = "Your opponent won the castle"
+    }
+
+    const handleClick = (event) => {
+      event.preventDefault()
+      handleNextBattle(points)
     }
 
     presentation = (
@@ -46,7 +53,7 @@ const ResultsScreen = (props) => {
           <button
             type="button"
             className="button large"
-            onClick={() => handleRefresh()}
+            onClick={(event) => handleClick(event)}
           >
             Next Battle
           </button>

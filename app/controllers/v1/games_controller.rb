@@ -33,7 +33,8 @@ class V1::GamesController < ApplicationController
   end
 
   def refresh
-    max_castles = 3
+    max_castles = 11
+    game_status = "ongoing"
     game = Game.where("passcode = ?", params[:id]).order(:created_at).last
     if game
       current_user = User.find(params[:user_id])
@@ -41,21 +42,19 @@ class V1::GamesController < ApplicationController
       opponent_id = get_opponent_id(game, current_user.id)
       opponent = User.find(opponent_id)
       # binding.pry
-      if current_user.ready_for_battle === game.current_castle.floor().to_i() && opponent.ready_for_battle === game.current_castle.floor().to_i()
+      current_castle_floor = game.current_castle.floor().to_i()
+      if current_user.ready_for_battle === current_castle_floor && opponent.ready_for_battle === current_castle_floor
         next_step = "result"
         game.current_castle += 0.5
         game.save
-      #    winner  = getWinner(currentUser, opponent) <-- MUST DEFINE THIS
-      #    if winner is host:
-      #      set host castle points += {castle #}
-      #    else
-      #      set guest castle points += {castle #}   
-
-      elsif current_user.ready_for_battle === opponent.ready_for_battle && current_user.ready_for_battle != game.current_castle.floor().to_i()
+      elsif current_user.ready_for_battle <= opponent.ready_for_battle && current_user.ready_for_battle != current_castle_floor
         next_step = "form"
 
-        if game.current_castle === max_castles
+        if current_castle_floor === max_castles
           next_step = "victory"
+          if current_user.ready_for_battle === opponent.ready_for_battle
+            game_status = "over"
+          end
         end
       else
         # binding.pry
@@ -65,13 +64,41 @@ class V1::GamesController < ApplicationController
         render json: {
           game: game,
           opponent: opponent,
-          next_step: next_step
+          next_step: next_step,
+          game_status: game_status
         }
       else
         render json: {error: "Error joining game"}
       end
     else
       render json: {error: "Passcode is not valid"}
+    end
+  end
+
+  def points
+    max_castles = 11
+    current_user = User.find(params[:user_id])
+    points = params[:points].to_i
+    game = Game.find(params[:game_id])
+    opponent_id = get_opponent_id(game, current_user.id)
+    opponent = User.find(opponent_id)
+
+    next_step = "form"
+    if game.current_castle === max_castles
+      next_step = "victory"
+    end
+
+    current_user.castle_points += points
+
+    if current_user.save
+      render json: {
+        game: game,
+        current_user: current_user,
+        opponent: opponent,
+        next_step: next_step
+      }
+    else
+      render json: {error: "Error in game"}
     end
   end
 
@@ -86,4 +113,22 @@ class V1::GamesController < ApplicationController
       return game.host_id
     end
   end
+
+  # def assign_castle_points(current_user, opponent, current_castle)
+  #   current_user_soldiers = current_user.sent_soldiers
+  #   opponent_soldiers = opponent.sent_soldiers
+
+  #   if current_user_soldiers > opponent_soldiers
+  #     current_user.castle_points += current_castle
+  #     return "current_user"
+  #   elsif opponent_soldiers > current_user_soldiers
+  #     opponent.castle_points += current_castle
+  #     return "opponent"
+  #   else
+  #     return "tie"
+  #   end
+
+  #   current_user.save
+  #   opponent.save
+  # end
 end
