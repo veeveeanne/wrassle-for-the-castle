@@ -1,5 +1,5 @@
 import React from 'react'
-import Roll from 'react-reveal/Roll';
+import Flip from 'react-reveal/Flip';
 
 const JoinGameScreen = (props) => {
   const handleSubmit = (event) => {
@@ -28,9 +28,9 @@ const JoinGameScreen = (props) => {
 
   return (
     <div className="container">
-      <Roll right>
+      <Flip right>
         <img className="lobby" src={require('./lobby.png')} alt="lobby"/>
-      </Roll>
+      </Flip>
       <div className="spacer" />
       <form onSubmit={handleSubmit}>
         <label htmlFor="passcode"><h4>Enter the passcode to join a game: </h4></label>

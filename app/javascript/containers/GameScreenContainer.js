@@ -5,7 +5,7 @@ import ResultsScreen from '../components/ResultsScreen'
 import RefreshButton from "../components/RefreshButton"
 
 const GameScreenContainer = (props) => {
-  const { currentUser, setCurrentUser, game, setGame, opponent, setOpponent, setUpdateMessage, gameScreenPage, setGameScreenPage, nextStep, setNextStep, setCurrentPage, refreshClickHandler } = props
+  const { currentUser, setCurrentUser, game, setGame, opponent, setOpponent, setUpdateMessage, gameScreenPage, setGameScreenPage, nextStep, setNextStep, setCurrentPage } = props
   let display = "Waiting for your opponent. Send a scout out to spy on them!"
 
   if (game.guest_id) {
@@ -132,7 +132,7 @@ const GameScreenContainer = (props) => {
     handleChange={handleChange}
     gameScreenPage={gameScreenPage}
     setGameScreenPage={setGameScreenPage}
-    refreshClickHandler={refreshClickHandler}
+    refreshClickHandler={onRefreshClick}
     />)
   } else if (gameScreenPage === 'resultsScreen') {
     showPage = (
@@ -144,6 +144,7 @@ const GameScreenContainer = (props) => {
         setGameScreenPage={setGameScreenPage}
         nextStep={nextStep}
         handleRefresh={handleRefresh}
+        refreshClickHandler={onRefreshClick}
       />
     )
   }

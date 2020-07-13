@@ -1,5 +1,5 @@
 import React from 'react'
-import HeadShake from 'react-reveal/HeadShake';
+import Flip from 'react-reveal/Flip';
 import Pulse from 'react-reveal/Pulse';
 
 import RefreshButton from './RefreshButton'
@@ -13,9 +13,9 @@ const TroopDeployForm = (props) => {
     presentation = (
       <div>
         <img className="background" src={require('./background.jpg')} />
-        <HeadShake>
+        <Flip bottom cascade>
           <h5 className="message">Waiting for your opponent. Send a scout out to spy on them!</h5>
-        </HeadShake>
+        </Flip>
         <RefreshButton
           refreshClass={refreshClass}
           clickHandler={props.refreshClickHandler}

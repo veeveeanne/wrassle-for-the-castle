@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import Roll from 'react-reveal/Roll';
+import Flip from 'react-reveal/Flip';
 
 const StartGameScreen = (props) => {
   const createNewGameFetch = () => {
@@ -43,9 +43,9 @@ const StartGameScreen = (props) => {
   return (
     <div>
       <div className="container">
-        <Roll left>
+        <Flip right>
           <img className="lobby" src={require('./lobby.png')} alt="lobby"/>
-        </Roll>
+        </Flip>
         <h4>
           {instructions}
         </h4>

@@ -105,8 +105,6 @@ const GameContainer = (props) => {
           setOpponent={setOpponent}
           nextStep={nextStep}
           setNextStep={setNextStep}
-          setCurrentPage={setCurrentPage}
-          refreshClickHandler={onRefreshClick}
         />
       </div>
     )
