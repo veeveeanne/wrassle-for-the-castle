@@ -4,7 +4,7 @@ import TroopDeployForm from '../components/TroopDeployForm'
 import ResultsScreen from '../components/ResultsScreen'
 
 const GameScreenContainer = (props) => {
-  const { currentUser, setCurrentUser, game, setGame, opponent, setUpdateMessage, gameScreenPage, setGameScreenPage, nextStep } = props
+  const { currentUser, setCurrentUser, game, setGame, opponent, setUpdateMessage, gameScreenPage, setGameScreenPage, nextStep, refreshClickHandler } = props
 
   const submitSoldiers = (event) => {
     event.preventDefault()
@@ -63,6 +63,7 @@ const GameScreenContainer = (props) => {
     game={game}
     submitSoldiers={submitSoldiers}
     handleChange={handleChange}
+    refreshClickHandler={refreshClickHandler}
     />)
   } else if (gameScreenPage === 'resultsScreen') {
     showPage = (

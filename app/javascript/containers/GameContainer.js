@@ -148,7 +148,6 @@ const GameContainer = (props) => {
   } else if (currentPage === "gameScreen") {
     showPage = (
       <div>
-        <RefreshButton clickHandler={onRefreshClick} />
         <StatusMessage updateMessage={updateMessage}/>
         <GameScreenContainer
           setCurrentPage={setCurrentPage}
@@ -161,6 +160,7 @@ const GameContainer = (props) => {
           setGameScreenPage={setGameScreenPage}
           opponent={opponent}
           nextStep={nextStep}
+          refreshClickHandler={onRefreshClick}
         />
       </div>
     )
