@@ -98,17 +98,16 @@ const GameContainer = (props) => {
       })
       .then(response => response.json())
       .then(body => {
-        console.log(body.next_step)
         setGame(body.game)
         setOpponent(body.opponent)
         setNextStep(body.next_step)
-        if (nextStep === "result") {
+        if (body.next_step === "result") {
           setGameScreenPage("resultsScreen")
           setUpdateMessage("")
-        } else if (nextStep === "form") {
+        } else if (body.next_step === "form") {
           setGameScreenPage("troopDeployForm")
           setUpdateMessage("")
-        } else if (nextStep === "victory") {
+        } else if (body.next_step === "victory") {
           setCurrentPage("victoryScreen")
           setUpdateMessage("")
         } else {
@@ -129,7 +128,8 @@ const GameContainer = (props) => {
         handleFormChange={handlePasscodeFormChange}
         passcodeForm={passcodeForm}
         currentUser={currentUser}
-      />
+        setOpponent={setOpponent}
+    />
     )
   } else if (currentPage === "startGameScreen") {
     showPage = (
@@ -138,6 +138,7 @@ const GameContainer = (props) => {
         game={game}
         setGame={setGame}
         currentUser={currentUser}
+        setOpponent={setOpponent}
       />
     )
   } else if (currentPage === "gameScreen") {

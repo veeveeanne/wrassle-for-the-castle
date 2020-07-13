@@ -1,6 +1,6 @@
 import React from 'react'
 
-import { subscribeToGameChannel, speakToGameChannel } from '../channels/gameChannelHelper'
+import { subscribeToUserChannel, speakToUserChannel } from '../channels/gameChannelHelper'
 
 const JoinGameScreen = (props) => {
   const handleSubmit = (event) => {
@@ -22,8 +22,8 @@ const JoinGameScreen = (props) => {
         } else {
           props.setGame(body.game)
           props.setCurrentPage("gameScreen")
-          subscribeToGameChannel(props.setGame)
-          if (body.game != null) speakToGameChannel({ game: body.game })
+          subscribeToUserChannel(props.setOpponent, props.currentUser.id)
+          if (props.currentUser != null) speakToUserChannel({ user: props.currentUser })
         }
       })
     }

@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 
-import { subscribeToGameChannel } from '../channels/gameChannelHelper'
+import { subscribeToUserChannel } from '../channels/gameChannelHelper'
 
 const StartGameScreen = (props) => {
   const createNewGameFetch = () => {
@@ -26,7 +26,7 @@ const StartGameScreen = (props) => {
     .then((response) => response.json())
     .then((body) => {
       props.setGame(body.game)
-      subscribeToGameChannel(props.setGame)
+      subscribeToUserChannel(props.setOpponent, props.currentUser.id)
     })
   }
 

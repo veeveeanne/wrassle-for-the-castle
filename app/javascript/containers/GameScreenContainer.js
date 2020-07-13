@@ -2,14 +2,14 @@ import React, { useState, useEffect } from 'react'
 
 import TroopDeployForm from '../components/TroopDeployForm'
 import ResultsScreen from '../components/ResultsScreen'
-import { speakToGameChannel } from '../channels/gameChannelHelper'
+import { speakToUserChannel } from '../channels/gameChannelHelper'
 
 const GameScreenContainer = (props) => {
   const { currentUser, setCurrentUser, game, setGame, opponent, setUpdateMessage, gameScreenPage, setGameScreenPage, nextStep, handleRefresh } = props
 
   useEffect(() => {
     handleRefresh()
-  }, [game.updated_at])
+  }, [opponent.updated_at])
 
   let display = "Waiting for your opponent. Send a scout out to spy on them!"
   if (game.guest_id) {
@@ -54,7 +54,7 @@ const GameScreenContainer = (props) => {
       setGameScreenPage("resultsScreen")
       if (game != null) {
         console.log("speaking")
-        speakToGameChannel({ game: game })
+        speakToUserChannel({ user: user })
       }
     })
   }
