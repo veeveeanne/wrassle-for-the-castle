@@ -90,21 +90,23 @@ const GameContainer = (props) => {
     )
   } else if (currentPage === "gameScreen") {
     showPage = (
-      <GameScreenContainer
-        setCurrentPage={setCurrentPage}
-        game={game}
-        setGame={setGame}
-        currentUser={currentUser}
-        setCurrentUser={setCurrentUser}
-        setUpdateMessage={setUpdateMessage}
-        gameScreenPage={gameScreenPage}
-        setGameScreenPage={setGameScreenPage}
-        opponent={opponent}
-        setOpponent={setOpponent}
-        nextStep={nextStep}
-        setNextStep={setNextStep}
-        setCurrentPage={setCurrentPage}
-      />
+      <div>
+        <StatusMessage updateMessage={updateMessage}/>
+        <GameScreenContainer
+          setCurrentPage={setCurrentPage}
+          game={game}
+          setGame={setGame}
+          currentUser={currentUser}
+          setCurrentUser={setCurrentUser}
+          setUpdateMessage={setUpdateMessage}
+          gameScreenPage={gameScreenPage}
+          setGameScreenPage={setGameScreenPage}
+          opponent={opponent}
+          setOpponent={setOpponent}
+          nextStep={nextStep}
+          setNextStep={setNextStep}
+        />
+      </div>
     )
   } else if (currentPage === "victoryScreen") {
     showPage = (
@@ -118,7 +120,6 @@ const GameContainer = (props) => {
 
   return (
     <>
-      <StatusMessage updateMessage={updateMessage}/>
       {showPage}
     </>
   )

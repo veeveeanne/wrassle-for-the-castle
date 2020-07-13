@@ -1,12 +1,15 @@
 import React, { useState, useEffect } from 'react'
+import Tada from 'react-reveal/Tada';
 
 const TitleScreen = (props) => {
 
   return (
     <div>
       <div>
-        <img className="castle" src={require('./castle.png')} alt="Top Down Castle Sprite@seekpng.com" />
-        <h1 className="title">Wrassle for the Castle</h1>
+        <Tada>
+          <img className="castle" src={require('./castle.png')} alt="Top Down Castle Sprite@seekpng.com" />
+          <h1 className="title">Wrassle for the Castle</h1>
+        </Tada>
       </div>
       <div className="text-container">
         <h4 className="text-bold">Two generals send their armies to battle over the most valuable castles</h4>

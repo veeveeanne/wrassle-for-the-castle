@@ -1,4 +1,4 @@
-import React, {useState} from 'react'
+import React, { useState } from 'react'
 
 import TroopDeployForm from '../components/TroopDeployForm'
 import ResultsScreen from '../components/ResultsScreen'
@@ -132,6 +132,7 @@ const GameScreenContainer = (props) => {
     handleChange={handleChange}
     gameScreenPage={gameScreenPage}
     setGameScreenPage={setGameScreenPage}
+    refreshClickHandler={onRefreshClick}
     />)
   } else if (gameScreenPage === 'resultsScreen') {
     showPage = (
@@ -143,20 +144,17 @@ const GameScreenContainer = (props) => {
         setGameScreenPage={setGameScreenPage}
         nextStep={nextStep}
         handleRefresh={handleRefresh}
+        refreshClickHandler={onRefreshClick}
       />
     )
   }
 
   return (
     <div>
-      <RefreshButton clickHandler={onRefreshClick} />
-      <br />
-      <br />
-      Game Room: {props.game.passcode}
-      <br />
+      <div className="session-id">
+        Game Room: {props.game.passcode}
+      </div>
       {showPage}
-      <br />
-      <br />
     </div>
   )
 }

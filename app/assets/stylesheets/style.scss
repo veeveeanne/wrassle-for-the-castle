@@ -73,6 +73,19 @@ img.lobby {
   max-width: 30vw;
 }
 
+img.background {
+  position: absolute;
+  top: 85px;
+  left: 50%;
+  margin-left: -25vw;
+  max-width: 50vw;
+  z-index: 1;
+}
+
+img.troops {
+  max-width: 50vw;
+}
+
 .spacer {
   height: 15px;
 }
@@ -80,4 +93,39 @@ img.lobby {
 .text-bold {
   font-weight: 600;
   color: $color-darkblue
+}
+
+.session-id {
+  font-size: 12px;
+  position: absolute;
+  top: 30px;
+  right: 30px;
+}
+
+.refresh {
+  position: absolute;
+  z-index: 3;
+  top: 145px;
+  left: 50%;
+  width: 200px;
+  margin-left: -100px;
+}
+
+.message {
+  position: absolute;
+  z-index: 5;
+  top: 110px;
+  left: 50%;
+  width: 50vw;
+  margin-left: -25vw;
+}
+
+.status {
+  position: relative;
+  z-index: 15;
+  top: 15px;
+}
+
+.resultsDisplay {
+  margin-top: 25px;
 }

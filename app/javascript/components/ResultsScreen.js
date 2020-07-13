@@ -1,35 +1,79 @@
 import React from 'react'
+import Flip from 'react-reveal/Flip';
+import Slide from 'react-reveal/Slide';
+
+import RefreshButton from './RefreshButton'
 
 const ResultsScreen = (props) => {
-  const { currentUser, opponent, setGameScreenPage, nextStep, nextCastle, handleRefresh } = props
-    let presentation = (<h1> waiting for opponent </h1>)
-    let display = "Waiting for your opponent. Send a scout out to spy on them!"
+  const { currentUser, opponent, setGameScreenPage, nextStep, nextCastle, handleRefresh, refreshClickHandler } = props
+  let presentation
+  let refreshClass
 
-    if (props.game.guest_id) {
-        display = ""
+  console.log("results screen, nextStep: " + nextStep)
+  console.log("results screen, opponent: " + opponent.id)
+
+  if (nextStep === "result") {
+    let winnerMessage = "It's a tie! Neither of you won the castle.."
+    if (currentUser.sent_soldiers > opponent.sent_soldiers) {
+      winnerMessage = "You won the castle"
+    } else if (opponent.sent_soldiers > currentUser.sent_soldiers) {
+      winnerMessage = "Your opponent won the castle"
     }
-    console.log("results screen, nextStep: " + nextStep)
-    console.log("results screen, opponent: " + opponent.id)
-    if (nextStep === "result") {
-        presentation = (
-          <div>
-              <h1> your score: {currentUser.sent_soldiers} </h1>
-              <h1> their score: {opponent.sent_soldiers} </h1>
-              <input
-                type="submit"
-                className="button large"
-                value="Next Battle"
-                onClick={() => handleRefresh()}
-              />
+
+    presentation = (
+      <div className="resultsDisplay">
+        <div className="grid-container fluid">
+          <div className="grid-x grid-margin-x">
+            <div className="cell small-4">
+              <Slide left>
+                <h4>You sent {currentUser.sent_soldiers} soldiers</h4>
+                <img className="knight" src={require('./Knight_red.png')} />
+              </Slide>
+            </div>
+            <div className="cell small-4">
+              <img src={require('./castle.png')} />
+            </div>
+            <div className="cell small-4">
+              <Slide right>
+                <h4>They sent {opponent.sent_soldiers} soldiers</h4>
+                <img className="knight" src={require('./Knight_blue.png')} />
+              </Slide>
+            </div>
           </div>
-        )
-    }
-
-    return (
-        <div>
-            {presentation}
+          <div className="spacer" />
+          <h2 className="text-bold">{winnerMessage}</h2>
+          <div className="spacer" />
+          <button
+            type="button"
+            className="button large"
+            onClick={() => handleRefresh()}
+          >
+            Next Battle
+          </button>
         </div>
+      </div>
     )
+  } else {
+    refreshClass = "refresh"
+    presentation = (
+      <div>
+        <img className="background" src={require('./background.jpg')} />
+        <Flip bottom cascade>
+          <h5 className="message">Waiting for your opponent. Send a scout out to spy on them!</h5>
+        </Flip>
+        <RefreshButton
+          refreshClass={refreshClass}
+          clickHandler={props.refreshClickHandler}
+        />
+      </div>
+    )
+  }
+
+  return (
+    <div>
+        {presentation}
+    </div>
+  )
 }
 
 export default ResultsScreen

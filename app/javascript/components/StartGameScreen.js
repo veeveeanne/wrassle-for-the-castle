@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react'
+import Flip from 'react-reveal/Flip';
 
 const StartGameScreen = (props) => {
   const createNewGameFetch = () => {
@@ -42,7 +43,9 @@ const StartGameScreen = (props) => {
   return (
     <div>
       <div className="container">
-        <img className="lobby" src={require('./lobby.png')} alt="lobby"/>
+        <Flip right>
+          <img className="lobby" src={require('./lobby.png')} alt="lobby"/>
+        </Flip>
         <h4>
           {instructions}
         </h4>
