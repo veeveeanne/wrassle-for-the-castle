@@ -3,7 +3,7 @@ class V1::GamesController < ApplicationController
     passcode = (0...8).map { (65 + rand(26)).chr }.join
     current_user = User.find(params[:host_id])
     # binding.pry
-    game = Game.new(passcode: passcode, host: current_user, current_castle: 1)
+    game = Game.new(passcode: passcode, host: current_user, current_castle: 1.0)
     if game.save
       render json: {game: game}
     else
@@ -37,30 +37,28 @@ class V1::GamesController < ApplicationController
     game = Game.where("passcode = ?", params[:id]).order(:created_at).last
     if game
       current_user = User.find(params[:user_id])
-     
+
       opponent_id = get_opponent_id(game, current_user.id)
       opponent = User.find(opponent_id)
-
-      if current_user.ready_for_battle === true && opponent.ready_for_battle === true
+      # binding.pry
+      if current_user.ready_for_battle === game.current_castle.floor().to_i() && opponent.ready_for_battle === game.current_castle.floor().to_i()
         next_step = "result"
-        current_user.ready_for_battle = false
-        opponent.ready_for_battle = false
-      elsif current_user.ready_for_next_turn === true && opponent.ready_for_next_turn === true
+        game.current_castle += 0.5
+        game.save
       #    winner  = getWinner(currentUser, opponent) <-- MUST DEFINE THIS
       #    if winner is host:
       #      set host castle points += {castle #}
       #    else
-      #      set guest castle points += {castle #}
+      #      set guest castle points += {castle #}   
+
+      elsif current_user.ready_for_battle === opponent.ready_for_battle && current_user.ready_for_battle != game.current_castle.floor().to_i()
         next_step = "form"
-        current_user.ready_for_next_turn = false
-        opponent.ready_for_next_turn = false
 
         if game.current_castle === max_castles
           next_step = "victory"
-        else
-          game.current_castle += 1
         end
       else
+        # binding.pry
         next_step = "out-of-sync"
       end
       if game.save
@@ -77,27 +75,14 @@ class V1::GamesController < ApplicationController
     end
   end
 
-  def advance
-    game = Game.where("passcode = ?", params[:id]).order(:created_at).last
-    game.current_castle += 1
-    if game.save
-        render json: {
-          game: game,
-          opponent: opponent,
-          advanceScreen: false,
-          victory: false
-        }
-      end 
-  end
-
   private
-  
+
   def get_opponent_id(game, current_user_id)
     host_id = game.host.id
 
     if current_user_id === host_id
       return game.guest_id
-    else 
+    else
       return game.host_id
     end
   end

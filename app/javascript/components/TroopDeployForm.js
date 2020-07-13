@@ -19,7 +19,7 @@ const TroopDeployForm = (props) => {
 
     return (
         <div>
-           {presentation} 
+           {presentation}
         </div>
     )
 }
