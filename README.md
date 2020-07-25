@@ -1,5 +1,5 @@
 # Wrassle for the Castle
-A multiplayer, turned based game of capture the castle, where two generals send their armies to battle over the most valuable castles 
+A multiplayer, turn based game of capture the castle, where two generals send their armies to battle over the most valuable castles 
 Visit the deployed application [here](http://wrassle-for-the-castle.herokuapp.com/)
 
 This application was built for the [MintBean Multiplayer Hackathon](https://sites.google.com/mintbean.io/2020-07-10-multiplayer-hackath/home?authuser=2) on July 10-13, 2020. The game context was inspired by a game theory riddle, [The Battle for Riddler Nation](https://fivethirtyeight.com/features/the-battle-for-riddler-nation-round-2/), from The Riddler.
